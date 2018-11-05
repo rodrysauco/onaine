@@ -17,7 +17,7 @@ export default class Transacciones {
     return total;
   }
 
-  demandaAnualProducto(id) {
+  demandaAnualProducto(id) { //eslint-disable-next-line
     let demanda = 0;
 
     for (let balance of this.lista) {
