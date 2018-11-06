@@ -27,7 +27,7 @@ export default class Transacciones {
 
   demandaDiariaProducto(id) {
     let demandaAnual = this.demandaAnualProducto(id);
-    let diasLaborales = this.lista.lenght * 3;
+    let diasLaborales = this.lista.length * 3;
     let rta = demandaAnual / diasLaborales;
 
     return rta;

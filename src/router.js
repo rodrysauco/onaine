@@ -17,19 +17,31 @@ export default new VueRouter({
       component: HomeComponent
     },
     {
-      path:'/inventario',
-      name:'inventory',
+      path: '/inventario',
+      name: 'inventory',
       component: Inventario
     },
     {
-      path:'/QModel',
-      name:'modeloQ',
+      path: '/QModel',
+      name: 'modeloQ',
       component: ModeloQ
     },
     {
-      path:'/PModel',
-      name:'modeloP',
+      path: '/QModel/:id',
+      name: 'itemQ',
+      component: ModeloQ,
+      props: true
+    },
+    {
+      path: '/PModel',
+      name: 'modeloP',
       component: ModeloP
+    },
+    {
+      path: '/PModel/:id',
+      name: 'itemP',
+      component: ModeloP,
+      props: true
     }
   ]
 })

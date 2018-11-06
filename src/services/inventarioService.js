@@ -4,38 +4,39 @@ import Transacciones from '../models/Transacciones';
 
 const transacciones = new Transacciones();
 
-const inventory = [
-  new Bebida(1, "Gaseosa", "Coca", 20, 19), /* , */
-  new Bebida(2, "Gaseosa", "Coca Light", 20, 12), /* , */
-  new Bebida(3, "Gaseosa", "Coca Zero", 20, 14), /* , */
-  new Bebida(4, "Gaseosa", "Sprite", 20, 6), /* , */
-  new Bebida(5, "Gaseosa", "Sprite Light", 20, 14), /* , */
-  new Bebida(6, "Gaseosa", "Fanta", 20, 5), /* , */
-  new Bebida(7, "Gaseosa", "Schweppes", 22, 2), /* , */
-  new Bebida(8, "Gaseosa", "Schweppes Pomelo", 22, 1), /* , */
-  new Bebida(9, "Agua Saborisada", "We Citrus", 15, 5), /* , */
-  new Bebida(10, "Agua Saborisada", "We Lemon", 15, 3), /* , */
-  new Bebida(11, "Agua Saborisada", "We Naranja", 15, 4), /* , */
-  new Bebida(12, "Agua Saborisada", "We Pomelo", 15, 1), /* , */
-  new Bebida(13, "Agua", "Agua sin gas", 5, 3), /* , */
-  new Bebida(14, "Agua", "Agua con gas", 5, 1), /* , */
-  new Bebida(15, "Vino Tinto", "Lopez", 31, 1), /* , */
-  new Bebida(16, "Vino Tinto", "Rincon Famoso", 90, 1), /* , */
-  new Bebida(17, "Vino Tinto", "Traful", 38, 3), /* , */
-  new Bebida(18, "Vino Tinto", "Elementos", 65, 1), /* , */
-  new Bebida(19, "Vino Tinto", "Bianchi", 47, 4), /* , */
-  new Bebida(20, "Vino Tinto", "Benjamin Senetiner", 55, 1), /* , */
-  new Bebida(21, "Vino Tinto", "Valmont", 65, 1), /* , */
-  new Bebida(22, "Vino Tinto", "Latitud 33", 90, 1), /* , */
-  new Bebida(23, "Vino Tinto", "Uxmal", 65, 1), /* , */
-  new Bebida(24, "Vino Tinto", "Suter", 90, 1), /* , */
-  new Bebida(25, "Vino Blanco", "Norton Cosecha Tardia", 70, 1), /* , */
-  new Bebida(26, "Vino Blanco", "Lopez", 65, 1), /* , */
-  new Bebida(27, "Vino Blanco", "Vasco Viejo", 35, 1), /* , */
-  new Bebida(28, "Vino Blanco", "Bianchi Chablis", 47, 1), /* , */
-  new Bebida(29, "Vino Blanco", "Etchart Privado", 39, 1), /* , */
-  new Bebida(30, "Vino Blanco", "Frizze", 30, 1), /* , */
+const inventory = [ //Carga id / tipo / variedad / precio / cantidad / existencia
+  new Bebida(1, "Gaseosa", "Coca", 20, 9, 0),
+  new Bebida(2, "Gaseosa", "Coca Light", 20, 2, 0),
+  new Bebida(3, "Gaseosa", "Coca Zero", 20, 8, 0),
+  new Bebida(4, "Gaseosa", "Sprite", 20, 6, 0),
+  new Bebida(5, "Gaseosa", "Sprite Light", 20, 4, 0),
+  new Bebida(6, "Gaseosa", "Fanta", 20, 5, 0),
+  new Bebida(7, "Gaseosa", "Schweppes", 22, 7, 0),
+  new Bebida(8, "Gaseosa", "Schweppes Pomelo", 22, 1, 0),
+  new Bebida(9, "Agua Saborisada", "We Citrus", 15, 5, 0),
+  new Bebida(10, "Agua Saborisada", "We Lemon", 15, 7, 0),
+  new Bebida(11, "Agua Saborisada", "We Naranja", 15, 4, 0),
+  new Bebida(12, "Agua Saborisada", "We Pomelo", 15, 1, 0),
+  new Bebida(13, "Agua", "Agua sin gas", 5, 3, 0),
+  new Bebida(14, "Agua", "Agua con gas", 5, 9, 0),
+  new Bebida(15, "Vino Tinto", "Lopez", 31, 19, 0),
+  new Bebida(16, "Vino Tinto", "Rincon Famoso", 90, 4, 0),
+  new Bebida(17, "Vino Tinto", "Traful", 38, 12, 0),
+  new Bebida(18, "Vino Tinto", "Elementos", 65, 12, 0),
+  new Bebida(19, "Vino Tinto", "Bianchi", 47, 4, 0),
+  new Bebida(20, "Vino Tinto", "Benjamin Senetiner", 55, 1, 0),
+  new Bebida(21, "Vino Tinto", "Valmont", 65, 3, 0),
+  new Bebida(22, "Vino Tinto", "Latitud 33", 90, 1, 0),
+  new Bebida(23, "Vino Tinto", "Uxmal", 65, 10, 0),
+  new Bebida(24, "Vino Tinto", "Suter", 90, 6, 0),
+  new Bebida(25, "Vino Blanco", "Norton Cosecha Tardia", 70, 6, 0),
+  new Bebida(26, "Vino Blanco", "Lopez", 65, 1, 0),
+  new Bebida(27, "Vino Blanco", "Vasco Viejo", 35, 5, 0),
+  new Bebida(28, "Vino Blanco", "Bianchi Chablis", 47, 6, 0),
+  new Bebida(29, "Vino Blanco", "Etchart Privado", 39, 4, 0),
+  new Bebida(30, "Vino Blanco", "Frizze", 30, 10, 0),
 ]
+
 for (let i = 0; i < 10; i++) {
   let balance = new Balance();
   for (let bebida of inventory) {
@@ -89,7 +90,7 @@ export default {
   getBebida(id) {
     return new Promise((resolve, reject) => {
       try {
-        let bebida = inventory.find(drink => drink.id === id);
+        let bebida = inventory.find(drink => drink.idProducto == id);
         resolve(bebida);
       } catch (e) {
         reject(e.toString());
@@ -98,5 +99,41 @@ export default {
   },
   addBebida(value) {
     inventory.push(value);
+  },
+  getTransations() {
+    return new Promise((res, rej) => {
+      try {
+        res(transacciones);
+      } catch (e) {
+        rej(e);
+      }
+    })
+  },
+  devolverPrecio(id) {
+    let rta = 0
+    for (let bebida of inventory) {
+      if (bebida.idProducto == id) {
+        rta += bebida.existencia;
+      }
+    }
+    return rta;
+  },
+  devolverExistencia(id) {
+    let rta = 0;
+    for (let bebida of inventory) {
+      if (bebida.idProducto == id) {
+        rta += bebida.existencia;
+      }
+    }
+    return rta;
+  },
+  devolverIR(id) {
+    let rta = 0;
+    for (let bebida of inventory) {
+      if (bebida.idProducto == id) {
+        rta += bebida.indiceRotacion;
+      }
+    }
+    return rta;
   }
 }
