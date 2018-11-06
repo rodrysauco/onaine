@@ -1,21 +1,30 @@
 <template>
-  <div class="content" v-if="flag">
+  <div class="content">
     <el-card class="box-card">
       <div slot="header">
         <div class="returnLink">
           <router-link to="/inventario"><i class="el-icon-caret-left"></i> Volver</router-link>
         </div>
-        <div class="bebidaName">
-          {{bebida.tipo}} / {{bebida.variedad}}
+        <div class="text item">
+          Tipo: {{bebida.tipo}}
+          Variedad: {{bebida.variedad}}
+          Precio: {{bebida.precio}}
+          Cantidad: {{bebida.cantidad}}
+          Indice de rotacion: {{bebida.indiceRotacion}}
+          Costo: {{bebida.costo}}
+          Lead Time: {{bebida.leadTime}}
+
+          Demanda Anual: {{modelP.demandaAnual}}
+          Demanda Diaria: {{modelP.demandaDiaria}}
+          Periodo: {{modelP.periodo}}
+          σTL: {{modelP.sigmaTL}}
+          Desviacion Estandar: {{modelP.desviacionEstandar}}
+          Q Cantidad que debe ordenarse: {{modelP.cantidadQueDebeOrdenarse}}
         </div>
       </div>
       <div slot="body">
-
       </div>
     </el-card>
-  </div>
-  <div class="content" v-else>
-    HOLA
   </div>
 </template>
 <script>
@@ -24,37 +33,41 @@
     name: 'modelo-p',
     data() {
       return {
-        flag: false,
         bebida: {},
         modelP: {
-          demandaAnual: 0,
-          demandaDiaria: 0,
+          demandaAnual: 0, //D
+          demandaDiaria: 0, //d
           nivelServicio: 0,
           periodo: 7,
-          leadTime: 1,
-          sigma: 1,
-          existencia: 0,
+          sigmaTL: 1,
+          desviacionEstandar: 0.8, //z
+          cantidadQueDebeOrdenarse: 0 //q
         }
       }
     },
-    components: {
-    },
+    components: {},
     methods: {
-      calculate(event) {
-        console.log(event);
-
-        /* new ModeloP(transacciones.demandaAnualProducto(id), transacciones.demandaDiariaProducto(id), 
-  nivel, 7, 1, 1,inventario.devolverExistencia(id))  */
-      },
       loadingData(data) {
         let id = this.$route.params.id;
         this.modelP.demandaAnual = data.demandaAnualProducto(id);
         this.modelP.demandaDiaria = data.demandaDiariaProducto(id);
-        this.modelP.existencia = inventarioService.devolverExistencia(id);
+        this.calcularSigmaTL();
+        this.calcularQ();
       },
+      calcularQ() {
+        let rta = (this.modelP.demandaDiaria * (this.modelP.periodo + this.bebida.leadTime)) + (this.modelP.desviacionEstandar *
+          this.modelP.sigmaTL) - this.bebida.cantidad;
+        if (rta < 0) {
+          rta = 0;
+        }
+        this.modelP.cantidadQueDebeOrdenarse = rta;
+      },
+      calcularSigmaTL() {
+        this.modelP.sigmaTL = Math.sqrt(this.modelP.periodo + this.bebida.leadTime) * 1;
+      },
+
       checkStatus() {
         if (this.$route.params.id !== undefined) {
-          this.flag = true;
           inventarioService.getBebida(this.$route.params.id)
             .then((data) => this.bebida = data)
             .catch((err) => console.log(err));
@@ -83,7 +96,7 @@
   }
 
   .returnLink a {
-    color: blue;
+    color: black;
     text-decoration: none;
   }
 

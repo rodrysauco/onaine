@@ -4,15 +4,17 @@ export default class Bebida {
   variedad;
   precio;
   cantidad;
-  existencia;
   indiceRotacion;
+  costo;
+  leadTime;
 
-  constructor(id, tipo, variedad, precio, cantidad, existencia) {
+  constructor(id, tipo, variedad, precio, cantidad, costo, leadTime) {
     this.idProducto = id;
     this.precio = precio;
     this.tipo = tipo;
     this.variedad = variedad;
     this.cantidad = cantidad;
-    this.existencia = existencia;
+    this.costo = costo;
+    this.leadTime = leadTime;
   }
 }

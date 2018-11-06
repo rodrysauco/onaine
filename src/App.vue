@@ -8,8 +8,6 @@
         <el-menu :default-active="index" class="el-menu-demo" mode='horizontal' background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router='true'>
           <el-menu-item index="/">Home</el-menu-item>
           <el-menu-item index="/inventario">Inventario</el-menu-item>
-          <el-menu-item index="/PModel" disabled>Modelo P</el-menu-item>
-          <el-menu-item index="/QModel" disabled>Modelo Q</el-menu-item>
         </el-menu>
       </el-row>
       <transition name='component-fade' mode="out-in">

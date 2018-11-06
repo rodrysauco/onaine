@@ -4,37 +4,37 @@ import Transacciones from '../models/Transacciones';
 
 const transacciones = new Transacciones();
 
-const inventory = [ //Carga id / tipo / variedad / precio / cantidad / existencia
-  new Bebida(1, "Gaseosa", "Coca", 20, 9, 0),
-  new Bebida(2, "Gaseosa", "Coca Light", 20, 2, 0),
-  new Bebida(3, "Gaseosa", "Coca Zero", 20, 8, 0),
-  new Bebida(4, "Gaseosa", "Sprite", 20, 6, 0),
-  new Bebida(5, "Gaseosa", "Sprite Light", 20, 4, 0),
-  new Bebida(6, "Gaseosa", "Fanta", 20, 5, 0),
-  new Bebida(7, "Gaseosa", "Schweppes", 22, 7, 0),
-  new Bebida(8, "Gaseosa", "Schweppes Pomelo", 22, 1, 0),
-  new Bebida(9, "Agua Saborisada", "We Citrus", 15, 5, 0),
-  new Bebida(10, "Agua Saborisada", "We Lemon", 15, 7, 0),
-  new Bebida(11, "Agua Saborisada", "We Naranja", 15, 4, 0),
-  new Bebida(12, "Agua Saborisada", "We Pomelo", 15, 1, 0),
-  new Bebida(13, "Agua", "Agua sin gas", 5, 3, 0),
-  new Bebida(14, "Agua", "Agua con gas", 5, 9, 0),
-  new Bebida(15, "Vino Tinto", "Lopez", 31, 19, 0),
-  new Bebida(16, "Vino Tinto", "Rincon Famoso", 90, 4, 0),
-  new Bebida(17, "Vino Tinto", "Traful", 38, 12, 0),
-  new Bebida(18, "Vino Tinto", "Elementos", 65, 12, 0),
-  new Bebida(19, "Vino Tinto", "Bianchi", 47, 4, 0),
-  new Bebida(20, "Vino Tinto", "Benjamin Senetiner", 55, 1, 0),
-  new Bebida(21, "Vino Tinto", "Valmont", 65, 3, 0),
-  new Bebida(22, "Vino Tinto", "Latitud 33", 90, 1, 0),
-  new Bebida(23, "Vino Tinto", "Uxmal", 65, 10, 0),
-  new Bebida(24, "Vino Tinto", "Suter", 90, 6, 0),
-  new Bebida(25, "Vino Blanco", "Norton Cosecha Tardia", 70, 6, 0),
-  new Bebida(26, "Vino Blanco", "Lopez", 65, 1, 0),
-  new Bebida(27, "Vino Blanco", "Vasco Viejo", 35, 5, 0),
-  new Bebida(28, "Vino Blanco", "Bianchi Chablis", 47, 6, 0),
-  new Bebida(29, "Vino Blanco", "Etchart Privado", 39, 4, 0),
-  new Bebida(30, "Vino Blanco", "Frizze", 30, 10, 0),
+const inventory = [ //Carga id / tipo / variedad / precio / cantidad / costo / lead time
+  new Bebida(1, "Gaseosa", "Coca", 20, 9, 15, 7),
+  new Bebida(2, "Gaseosa", "Coca Light", 20, 2, 15, 7),
+  new Bebida(3, "Gaseosa", "Coca Zero", 20, 8, 15, 7),
+  new Bebida(4, "Gaseosa", "Sprite", 20, 6, 12, 7),
+  new Bebida(5, "Gaseosa", "Sprite Light", 20, 4, 12, 7),
+  new Bebida(6, "Gaseosa", "Fanta", 20, 5, 13, 7),
+  new Bebida(7, "Gaseosa", "Schweppes", 22, 7, 14, 7),
+  new Bebida(8, "Gaseosa", "Schweppes Pomelo", 22, 1, 14, 7),
+  new Bebida(9, "Agua Saborisada", "We Citrus", 15, 5, 11, 7),
+  new Bebida(10, "Agua Saborisada", "We Lemon", 15, 7, 11, 7),
+  new Bebida(11, "Agua Saborisada", "We Naranja", 15, 4, 11, 7),
+  new Bebida(12, "Agua Saborisada", "We Pomelo", 15, 1, 11, 7),
+  new Bebida(13, "Agua", "Agua sin gas", 5, 3, 3, 7),
+  new Bebida(14, "Agua", "Agua con gas", 5, 9, 3, 7),
+  new Bebida(15, "Vino Tinto", "Lopez", 31, 19, 25, 14),
+  new Bebida(16, "Vino Tinto", "Rincon Famoso", 90, 4, 50, 14),
+  new Bebida(17, "Vino Tinto", "Traful", 38, 12, 29, 14),
+  new Bebida(18, "Vino Tinto", "Elementos", 65, 12, 33, 14),
+  new Bebida(19, "Vino Tinto", "Bianchi", 47, 4, 23, 14),
+  new Bebida(20, "Vino Tinto", "Benjamin Senetiner", 55, 1, 21, 14),
+  new Bebida(21, "Vino Tinto", "Valmont", 65, 3, 30, 14),
+  new Bebida(22, "Vino Tinto", "Latitud 33", 90, 1, 40, 14),
+  new Bebida(23, "Vino Tinto", "Uxmal", 65, 10, 50, 14),
+  new Bebida(24, "Vino Tinto", "Suter", 90, 6, 33, 14),
+  new Bebida(25, "Vino Blanco", "Norton Cosecha Tardia", 70, 6, 28, 14),
+  new Bebida(26, "Vino Blanco", "Lopez", 65, 1, 26, 14),
+  new Bebida(27, "Vino Blanco", "Vasco Viejo", 35, 5, 19, 14),
+  new Bebida(28, "Vino Blanco", "Bianchi Chablis", 47, 6, 30, 14),
+  new Bebida(29, "Vino Blanco", "Etchart Privado", 39, 4, 26, 14),
+  new Bebida(30, "Vino Blanco", "Frizze", 30, 10, 15, 14),
 ]
 
 for (let i = 0; i < 10; i++) {
@@ -111,15 +111,6 @@ export default {
   },
   devolverPrecio(id) {
     let rta = 0
-    for (let bebida of inventory) {
-      if (bebida.idProducto == id) {
-        rta += bebida.existencia;
-      }
-    }
-    return rta;
-  },
-  devolverExistencia(id) {
-    let rta = 0;
     for (let bebida of inventory) {
       if (bebida.idProducto == id) {
         rta += bebida.existencia;
