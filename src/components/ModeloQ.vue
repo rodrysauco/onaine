@@ -1,6 +1,6 @@
 <template>
   <p>
-    Idem que Modelo P
+    Idem que Modelo P 
     </p>
 </template>
 <script>

@@ -1,5 +1,5 @@
 export default class Transacciones {
-  lista;
+  lista; //Lista de balances
 
   constructor() {
     this.lista = [];
@@ -17,12 +17,12 @@ export default class Transacciones {
     return total;
   }
 
-  demandaAnualProducto(id) { //eslint-disable-next-line
+  demandaAnualProducto(id) { 
     let demanda = 0;
-
     for (let balance of this.lista) {
       demanda += balance.demandaProducto(id);
     }
+    return demanda;
   }
 
   demandaDiariaProducto(id) {

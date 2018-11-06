@@ -1,13 +1,21 @@
 <template>
-<p>
-  Aca mostrar el inventario y que al clickear alguno haga las cuentas
-  </p>
-  
+  <inventario-component :noInv='true' @selected="calculate($event)"></inventario-component>
 </template>
 <script>
-export default {
-  name:'modelo-p'
-}
+  import InventarioComponent from './Inventario.vue'
+  export default {
+    name: 'modelo-p',
+    components: {
+      InventarioComponent
+    },
+    methods:{
+      calculate(event){
+        console.log(event);
+        /* new ModeloP(transacciones.demandaAnualProducto(id), transacciones.demandaDiariaProducto(id), 
+  nivel, 7, 1, 1,inventario.devolverExistencia(id))  */
+      },
+    }
+  }
 </script>
 
 <style>

@@ -7,12 +7,12 @@ export default class Balance {
   }
   
   addBebida(value) {
-    this.bebidaList.push(value);
+    this.drinkList.push(value);
   }
 
   totalVendido() {
     let total = 0;
-    for (let bebida of this.bebidaList) {
+    for (let bebida of this.drinkList) {
       total += bebida.cantidad;
     }
     return total;
@@ -20,8 +20,8 @@ export default class Balance {
 
   demandaProducto(idProducto) {
     let demanda = 0;
-    for (let bebida of this.bebidaList) {
-      if (bebida.id === idProducto) {
+    for (let bebida of this.drinkList) {
+      if (bebida.idProducto === idProducto) {
         demanda += bebida.cantidad;
       }
     }
