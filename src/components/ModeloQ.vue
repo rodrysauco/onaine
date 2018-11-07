@@ -5,32 +5,44 @@
         <div class="returnLink">
           <router-link to="/inventario"><i class="el-icon-caret-left"></i> Volver</router-link>
         </div>
-        <div class="text item">
-          Tipo: {{bebida.tipo}}
-          Variedad: {{bebida.variedad}}
-          Precio: {{bebida.precio}}
-          Cantidad: {{bebida.cantidad}}
-          Indice de rotacion: {{bebida.indiceRotacion}}
-          Costo: {{bebida.costo}}
-          Lead Time: {{bebida.leadTime}}
-
-          Demanda Anual: {{modelQ.demandaAnual}}
-          Demanda Diaria: {{modelQ.demandaDiaria}}
-          Costo de Mantenimiento: {{modelQ.costoMantenimiento}}
-          Punteo de reorden: {{modelQ.puntoReorden}}
-          Costo Preparacion: {{modelQ.costoPreparacion}}
-          Cantidad Pedido Optima: {{modelQ.cantidadPedidoOptima}}
-          Costo Total Esperado (CTE): {{modelQ.costoTotalEsperado}}
+        <div class="bebidaName">
+          {{bebida.tipo}} / {{bebida.variedad}}
         </div>
       </div>
-      <div slot="body">
-
+      <div v-if="bebida.indiceRotacion > 3">
+        <section class="cardHeader">
+          <div>Precio: ${{bebida.precio}}.-</div>
+          <div>Stock: {{bebida.cantidad}} unidades</div>
+          <div>Costo: ${{bebida.costo}}.-</div>
+        </section>
+        <section class="cardBody">
+          <div>Demora: {{bebida.leadTime}} dias</div>
+          <div>Demanda Anual: {{modelQ.demandaAnual}} unidades</div>
+          <div>Demanda Diaria: {{modelQ.demandaDiaria}} unidades</div>
+        </section>
+        <section class="cardAppend">
+          <div>Indice de rotacion: {{bebida.indiceRotacion}}</div>
+          <div>Costo de Mantenimiento: {{modelQ.costoMantenimiento}}</div>
+          <div>Punteo de reorden: {{modelQ.puntoReorden}}</div>
+          <div>Costo Preparacion: {{modelQ.costoPreparacion}}</div>
+          <div>Cantidad Pedido Optima: {{modelQ.cantidadPedidoOptima}}</div>
+          <div>Costo Total Esperado (CTE): {{modelQ.costoTotalEsperado}}</div>
+        </section>
+      </div>
+      <div v-else>
+        <section class="cardAppend">
+          Se recomienda realizar medicion P
+        </section>
+        <section class="cardAction">
+          <el-button type="info" round @click="redirectP">Modelo P</el-button>
+        </section>
       </div>
     </el-card>
   </div>
 </template>
 <script>
   import inventarioService from '@/services/inventarioService';
+  import router from '../router.js';
   export default {
     name: 'modelo-q',
     data() {
@@ -67,8 +79,8 @@
         }
         this.modelQ.puntoReorden = rta;
       },
-      calcularCTE(){
-        this.modelQ.costoTotalEsperado = (this.modelQ.demandaAnual * this.bebida.costo) + ((this.modelQ.demandaAnual/this.modelQ.cantidadPedidoOptima)*this.modelQ.costoPreparacion) + ((this.modelQ.cantidadPedidoOptima/2)*this.modelQ.costoMantenimiento);
+      calcularCTE() {
+        this.modelQ.costoTotalEsperado = (this.modelQ.demandaAnual * this.bebida.costo) + ((this.modelQ.demandaAnual / this.modelQ.cantidadPedidoOptima) * this.modelQ.costoPreparacion) + ((this.modelQ.cantidadPedidoOptima / 2) * this.modelQ.costoMantenimiento);
       },
       checkStatus() {
         if (this.$route.params.id !== undefined) {
@@ -79,6 +91,14 @@
             .then((data) => this.loadingData(data))
             .catch(err => console.log(err))
         }
+      },
+      redirectP() {
+        router.push({
+          name: 'itemP',
+          params: {
+            id: this.$route.params.id
+          }
+        })
       }
     },
     beforeMount() {
@@ -87,5 +107,4 @@
   }
 </script>
 <style>
-
 </style>

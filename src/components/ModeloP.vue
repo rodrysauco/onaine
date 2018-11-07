@@ -5,30 +5,43 @@
         <div class="returnLink">
           <router-link to="/inventario"><i class="el-icon-caret-left"></i> Volver</router-link>
         </div>
-        <div class="text item">
-          Tipo: {{bebida.tipo}}
-          Variedad: {{bebida.variedad}}
-          Precio: {{bebida.precio}}
-          Cantidad: {{bebida.cantidad}}
-          Indice de rotacion: {{bebida.indiceRotacion}}
-          Costo: {{bebida.costo}}
-          Lead Time: {{bebida.leadTime}}
-
-          Demanda Anual: {{modelP.demandaAnual}}
-          Demanda Diaria: {{modelP.demandaDiaria}}
-          Periodo: {{modelP.periodo}}
-          σTL: {{modelP.sigmaTL}}
-          Desviacion Estandar: {{modelP.desviacionEstandar}}
-          Q Cantidad que debe ordenarse: {{modelP.cantidadQueDebeOrdenarse}}
+        <div class="bebidaName">
+          {{bebida.tipo}} / {{bebida.variedad}}
         </div>
       </div>
-      <div slot="body">
+      <div v-if="bebida.indiceRotacion > 3">
+        <section class="cardAppend">
+          Se recomienda realizar medicion Q
+        </section>
+        <section class="cardAction">
+          <el-button type="info" round @click="redirectQ">Modelo Q</el-button>
+        </section>
+      </div>
+      <div v-else>
+        <section class="cardHeader">
+          <div>Precio: ${{bebida.precio}}.- </div>
+          <div>Cantidad: {{bebida.cantidad}} unidades</div>
+          <div>Costo: ${{bebida.costo}}.-</div>
+        </section>
+        <section class="cardBody">
+          <div>Demora: {{bebida.leadTime}} dias</div>
+          <div>Demanda Anual: {{modelP.demandaAnual}} unidades</div>
+          <div>Demanda Diaria: {{modelP.demandaDiaria}} unidades</div>
+        </section>
+        <section class="cardAppend">
+          <div>Indice de rotacion: {{bebida.indiceRotacion}}</div>
+          <div>Periodo: {{modelP.periodo}} dias</div>
+          <div>σTL: {{modelP.sigmaTL}}</div>
+          <div>Desviacion Estandar: {{modelP.desviacionEstandar}}</div>
+          <div>Cantidad a pedir: {{modelP.cantidadQueDebeOrdenarse}}</div>
+        </section>
       </div>
     </el-card>
   </div>
 </template>
 <script>
   import inventarioService from '@/services/inventarioService';
+  import router from '../router.js';
   export default {
     name: 'modelo-p',
     data() {
@@ -50,7 +63,7 @@
       loadingData(data) {
         let id = this.$route.params.id;
         this.modelP.demandaAnual = data.demandaAnualProducto(id);
-        this.modelP.demandaDiaria = data.demandaDiariaProducto(id);
+        this.modelP.demandaDiaria = Math.round(data.demandaDiariaProducto(id) * 1000) / 1000;
         this.calcularSigmaTL();
         this.calcularQ();
       },
@@ -60,12 +73,12 @@
         if (rta < 0) {
           rta = 0;
         }
-        this.modelP.cantidadQueDebeOrdenarse = rta;
+        this.modelP.cantidadQueDebeOrdenarse = Math.floor(rta);
       },
       calcularSigmaTL() {
-        this.modelP.sigmaTL = Math.sqrt(this.modelP.periodo + this.bebida.leadTime) * 1;
+        let v = Math.sqrt(this.modelP.periodo + this.bebida.leadTime) * 1;
+        this.modelP.sigmaTL = Math.round(v * 1000) / 1000;
       },
-
       checkStatus() {
         if (this.$route.params.id !== undefined) {
           inventarioService.getBebida(this.$route.params.id)
@@ -75,6 +88,14 @@
             .then((data) => this.loadingData(data))
             .catch(err => console.log(err))
         }
+      },
+      redirectQ() {
+        router.push({
+          name: "itemQ",
+          params: {
+            id: this.$route.params.id
+          }
+        })
       }
     },
     beforeMount() {
@@ -88,6 +109,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
+    font-size: 18px;
   }
 
   .returnLink {
@@ -96,12 +118,41 @@
   }
 
   .returnLink a {
-    color: black;
+    color: #2196f3;
     text-decoration: none;
+    transition: font-size 0.5s;
+  }
+
+  a:hover{
+    font-size: 15px;
   }
 
   .bebidaName {
-    font-size: 18px;
+    font-size: 22px;
+    font-style: italic;
     padding: 2px;
+  }
+
+  .cardHeader {
+    line-height: 25px;
+    padding-left: 5px;
+    border-bottom: 1px solid #607d8b2e;
+  }
+
+  .cardBody {
+    line-height: 25px;
+    padding-left: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #607d8b2e;
+  }
+
+  .cardAppend {
+    line-height: 25px;
+    padding-left: 5px;
+    padding-top: 5px;
+  }
+
+  .cardAction {
+    text-align: right;
   }
 </style>

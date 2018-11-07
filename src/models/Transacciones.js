@@ -37,6 +37,7 @@ export default class Transacciones {
     let valorInv = precio * invPromedio;
     let costoAnual = this.demandaAnualProducto(id) * precio;
     let rta = costoAnual / valorInv;
-    return rta;
+    let rtaRnd = Math.round(rta*1000)/1000;
+    return rtaRnd;
   }
 }
