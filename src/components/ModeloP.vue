@@ -9,15 +9,7 @@
           {{bebida.tipo}} / {{bebida.variedad}}
         </div>
       </div>
-      <div v-if="bebida.indiceRotacion > 3">
-        <section class="cardAppend">
-          Se recomienda realizar medicion Q
-        </section>
-        <section class="cardAction">
-          <el-button type="info" round @click="redirectQ">Modelo Q</el-button>
-        </section>
-      </div>
-      <div v-else>
+      <div>
         <section class="cardHeader">
           <div>Precio: ${{bebida.precio}}.- </div>
           <div>Cantidad: {{bebida.cantidad}} unidades</div>
@@ -123,7 +115,7 @@
     transition: font-size 0.5s;
   }
 
-  a:hover{
+  a:hover {
     font-size: 15px;
   }
 

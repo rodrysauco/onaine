@@ -2,9 +2,13 @@
   <div v-if="catalogo.length" class="tableInventory">
     <div>
       <el-table :data="catalogo" height="600" stripe>
-        <el-table-column prop="tipo" width="180" label="Tipo" sortable></el-table-column>
-        <el-table-column prop="variedad" width="180" label="Bebida" sortable></el-table-column>
-        <el-table-column prop="cantidad" label="Stock" align="center"></el-table-column>
+        <el-table-column prop="tipo" width="150" label="Tipo" sortable></el-table-column>
+        <el-table-column prop="variedad" width="150" label="Bebida" sortable></el-table-column>
+        <el-table-column prop="cantidad" label="Stock" align="center" sortable></el-table-column>
+        <el-table-column prop="costo" label="Costo" align="center" sortable></el-table-column>
+        <el-table-column prop="precio" label="Precio" align="center" sortable></el-table-column>
+        <el-table-column prop="leadTime" label="Lead Time" align="center" sortable></el-table-column>
+
         <el-table-column label="Acciones" align="center" width="205">
           <template slot-scope="scope">
             <el-button size="mini" type=info @click="modelP(scope.row)">Modelo P</el-button>

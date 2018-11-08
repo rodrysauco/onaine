@@ -9,7 +9,7 @@
           {{bebida.tipo}} / {{bebida.variedad}}
         </div>
       </div>
-      <div v-if="bebida.indiceRotacion > 3">
+      <div>
         <section class="cardHeader">
           <div>Precio: ${{bebida.precio}}.-</div>
           <div>Stock: {{bebida.cantidad}} unidades</div>
@@ -29,14 +29,7 @@
           <div>Costo Total Esperado (CTE): {{modelQ.costoTotalEsperado}}</div>
         </section>
       </div>
-      <div v-else>
-        <section class="cardAppend">
-          Se recomienda realizar medicion P
-        </section>
-        <section class="cardAction">
-          <el-button type="info" round @click="redirectP">Modelo P</el-button>
-        </section>
-      </div>
+     
     </el-card>
   </div>
 </template>
