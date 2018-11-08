@@ -23,10 +23,10 @@
         <section class="cardAppend">
           <div>Indice de rotacion: {{bebida.indiceRotacion}}</div>
           <div>Costo de Mantenimiento: {{modelQ.costoMantenimiento}}</div>
-          <div>Punteo de reorden: {{modelQ.puntoReorden}}</div>
+          <div>Punto de reorden: {{modelQ.puntoReorden}}</div>
           <div>Costo Preparacion: {{modelQ.costoPreparacion}}</div>
           <div>Cantidad Pedido Optima: {{modelQ.cantidadPedidoOptima}}</div>
-          <div>Costo Total Esperado (CTE): {{modelQ.costoTotalEsperado}}</div>
+          <div>Costo Total Esperado (CTE): ${{modelQ.costoTotalEsperado}}</div>
         </section>
       </div>
      
@@ -62,8 +62,8 @@
         this.calcularCTE();
       },
       calcularQ() {
-        this.modelQ.cantidadPedidoOptima = Math.sqrt((2 * this.modelQ.demandaAnual * this.modelQ.costoPreparacion) /
-          this.modelQ.costoMantenimiento);
+        let cpo = Math.sqrt((2 * this.modelQ.demandaAnual * this.modelQ.costoPreparacion) / this.modelQ.costoMantenimiento);
+        this.modelQ.cantidadPedidoOptima = Math.round(cpo*1000)/1000;
       },
       calcularReorden() {
         let rta = (this.modelQ.demandaDiaria * this.bebida.leadTime);
@@ -73,7 +73,8 @@
         this.modelQ.puntoReorden = rta;
       },
       calcularCTE() {
-        this.modelQ.costoTotalEsperado = (this.modelQ.demandaAnual * this.bebida.costo) + ((this.modelQ.demandaAnual / this.modelQ.cantidadPedidoOptima) * this.modelQ.costoPreparacion) + ((this.modelQ.cantidadPedidoOptima / 2) * this.modelQ.costoMantenimiento);
+        let cte = (this.modelQ.demandaAnual * this.bebida.costo) + ((this.modelQ.demandaAnual / this.modelQ.cantidadPedidoOptima) * this.modelQ.costoPreparacion) + ((this.modelQ.cantidadPedidoOptima / 2) * this.modelQ.costoMantenimiento);
+        this.modelQ.costoTotalEsperado = Math.round(cte*1000)/1000;
       },
       checkStatus() {
         if (this.$route.params.id !== undefined) {
