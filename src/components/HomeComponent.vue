@@ -242,9 +242,8 @@
           this.randDrink.demandaAnual =
             this.randDrink.demandaDiaria * this.randDrink.diasLaborales * 12;
         } else {
-          let dA =
-            this.randDrink.demandaAnual / 12 / this.randDrink.diasLaborales;
-          this.randDrink.demandaDiaria = Math.round(dA * 100) / 100;
+          this.randDrink.demandaDiaria =
+            this.randDrink.demandaAnual / this.randDrink.diasLaborales;
         }
         this.calcularoL();
         this.calcularQ();
@@ -262,7 +261,7 @@
         let rta =
           this.randDrink.demandaDiaria * this.randDrink.leadTime +
           mQp;
-        this.resultado.reorden = Math.round(rta * 100) / 100;
+        this.resultado.reorden = Math.round(rta);
       },
       calcularCTE() {
         let mQP = 0;
@@ -304,7 +303,7 @@
         }
       },
       obtenerCantidadOrdenes() {
-        this.resultado.nOrdenes = Math.round(this.randDrink.demandaAnual / this.resultado.cantidadOptima);
+        this.resultado.nOrdenes = Math.floor(this.randDrink.demandaAnual / this.resultado.cantidadOptima);
       },
       calcularSigmaL() {
         let v = Math.sqrt(this.modeloP.revision + this.randDrink.leadTime) * 1;
