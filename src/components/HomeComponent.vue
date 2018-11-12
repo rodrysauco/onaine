@@ -15,20 +15,23 @@
 
         <div v-if="!active">
           <!-- Carga los datos del producto -->
+          <div class="modelsHeader">
+            <el-switch v-model="isPSelected" active-text="Usar modelo P" inactive-text=" Usar modelo Q"></el-switch>
+          </div>
           <table class="tableCalculos">
-            <tr>
+            <tr v-if="!isPSelected">
               <td><span>Costo unidad</span></td><!-- C -->
               <td>
                 <el-input-number v-model="randDrink.costo" size="mini" :min=0></el-input-number>
               </td>
             </tr>
-            <tr>
+            <tr v-if="!isPSelected">
               <td><span>Costo anual mantenimiento</span></td><!-- H -->
               <td>
                 <el-input-number v-model="randDrink.costoAlma" size="mini" :min=0></el-input-number>
               </td>
             </tr>
-            <tr>
+            <tr v-if="!isPSelected">
               <td><span>Costo preparación</span></td><!-- S -->
               <td>
                 <el-input-number v-model="randDrink.costoPreparacion" size="mini" :min=0></el-input-number>
@@ -64,16 +67,13 @@
                 <el-input-number v-model="randDrink.nivelServicio" size="mini" :min=0></el-input-number>
               </td>
             </tr>
-            <tr>
-              <td><span>Dias Laborales</span></td>
+            <tr v-if="!isPSelected">
+              <td><span>Dias Laborales (anuales)</span></td>
               <td>
                 <el-input-number v-model="randDrink.diasLaborales" size="mini" :min=0></el-input-number>
               </td>
             </tr>
           </table>
-          <div class="modelsHeader">
-            <el-switch v-model="isPSelected" active-text="Usar modelo P" inactive-text=" Usar modelo Q"></el-switch>
-          </div>
           <div class="continue continue__first">
             <el-button type="primary" :disabled="!butt" @click="go1plus"><i class="el-icon-arrow-right"></i> Continuar</el-button>
           </div>
@@ -119,15 +119,22 @@
           </div>
         </div>
         <div v-if="active > 1">
-          <section>
+          <section v-if="!isPSelected">
             <div>Costo Total Esperado: $ {{modeloQ.CTE}}</div>
             <div>Cantidad optima de compra: {{resultado.cantidadOptima}} u.</div>
             <div>Punto de reorden: {{resultado.reorden}} u.</div>
-            <div>Faltantes: {{resultado.faltantes}} u.</div>
-            <div>Nº de Ordenes de compra anuales:{{resultado.nOrdenes}}</div>
+            <div>Nº de órdenes de compra anuales: {{resultado.nOrdenes}}</div>
+            <div>Tiempo de espera entre órdenes: {{randDrink.diasLaborales/resultado.nOrdenes}}</div>
+          </section>
+          <section v-else>
+            <div>Cantidad optima de compra: {{resultado.cantidadOptima}} u.</div>
+            <div>Faltantes: {{resultado.faltantes}}</div>
           </section>
           <section>
             <el-button @click="goBack">Volver</el-button>
+            <section class="continue">
+              <el-button type="primary" @click="reset"><i class="el-icon-arrow-right"></i> Reiniciar</el-button>
+            </section>
           </section>
         </div>
       </div>
@@ -189,36 +196,34 @@
         }
       },
       butt: function () {
-        if (
-          (this.randDrink.demandaDiaria || this.randDrink.demandaAnual) &&
-          this.randDrink.costo &&
-          this.randDrink.costoAlma &&
-          this.randDrink.costoPreparacion &&
-          this.randDrink.leadTime
-        ) {
-          return true;
+        if (this.isPSelected) {
+          if ((this.randDrink.demandaDiaria || this.randDrink.demandaAnual) && this.randDrink.leadTime) {
+            return true;
+          } else {
+            return false;
+          }
         } else {
-          return false;
+          if ((this.randDrink.demandaDiaria || this.randDrink.demandaAnual) && this.randDrink.leadTime &&
+            this.randDrink.costo &&
+            this.randDrink.costoAlma &&
+            this.randDrink.costoPreparacion) {
+            return true;
+          } else {
+            return false;
+          }
         }
+
       }
     },
     methods: {
       goBack() {
-        if (this.isPSelected) {
-          this.active = 0;
-        } else {
-          this.active--;
-        }
+        this.active--;
       },
       go1plus() {
         if (this.active < 2) {
-          if (this.isPSelected) {
-            this.active = 2;
-          } else {
-            this.active++;
-            if (this.active === 1) {
-              this.preparar();
-            }
+          this.active++;
+          if (this.active === 1) {
+            this.preparar();
           }
         } else {
           this.active = 0;
@@ -234,20 +239,34 @@
           }
         }
       },
+      reset() {
+        this.active = 0;
+        this.randDrink.costo = 0;
+        this.randDrink.costoAlma = 0;
+        this.randDrink.costoPreparacion = 0;
+        this.randDrink.demandaAnual = 0;
+        this.randDrink.demandaDiaria = 0;
+        this.randDrink.leadTime = 0;
+        this.randDrink.desviacionEstandar = 0;
+        this.randDrink.nivelServicio = 0;
+        this.randDrink.diasLaborales = 0;
+      },
       preparar() {
-        if (this.randDrink.nivelServicio > 1) {
-          this.randDrink.nivelServicio = this.randDrink.nivelServicio / 100;
+        if (!this.isPSelected) {
+          if (this.randDrink.nivelServicio > 1) {
+            this.randDrink.nivelServicio = this.randDrink.nivelServicio / 100;
+          }
+          if (this.randDrink.demandaAnual === 0) {
+            this.randDrink.demandaAnual =
+              this.randDrink.demandaDiaria * this.randDrink.diasLaborales;
+          } else {
+            this.randDrink.demandaDiaria =
+              this.randDrink.demandaAnual / this.randDrink.diasLaborales;
+          }
+          this.calcularoL();
+          this.calcularQ();
+          this.calculoEz();
         }
-        if (this.randDrink.demandaAnual === 0) {
-          this.randDrink.demandaAnual =
-            this.randDrink.demandaDiaria * this.randDrink.diasLaborales * 12;
-        } else {
-          this.randDrink.demandaDiaria =
-            this.randDrink.demandaAnual / this.randDrink.diasLaborales;
-        }
-        this.calcularoL();
-        this.calcularQ();
-        this.calculoEz();
       },
       calcularoL() {
         this.modeloQ.oL =
@@ -261,7 +280,7 @@
         let rta =
           this.randDrink.demandaDiaria * this.randDrink.leadTime +
           mQp;
-        this.resultado.reorden = Math.round(rta);
+        this.resultado.reorden = Math.ceil(rta);
       },
       calcularCTE() {
         let mQP = 0;
@@ -269,10 +288,10 @@
           mQP = this.modeloQ.eZ * this.modeloQ.oL * this.randDrink.costoAlma;
         }
         // DxC + Q/2*H+D/L*S + MQP
-        let cte = this.randDrink.demandaAnual * this.randDrink.costo +
+        let cte = (this.randDrink.demandaAnual * this.randDrink.costo) +
           ((this.resultado.cantidadOptima / 2) * this.randDrink.costoAlma) +
-          ((this.randDrink.demandaAnual / this.resultado.cantidadOptima) * this.randDrink.costoPreparacion)
-          + mQP;
+          ((this.randDrink.demandaAnual / this.randDrink.leadTime) * this.randDrink.costoPreparacion) +
+          mQP;
         this.modeloQ.CTE = Math.round(cte * 1000) / 1000;
       },
       calculoEz() {
@@ -303,7 +322,7 @@
         }
       },
       obtenerCantidadOrdenes() {
-        this.resultado.nOrdenes = Math.floor(this.randDrink.demandaAnual / this.resultado.cantidadOptima);
+        this.resultado.nOrdenes = Math.ceil(this.randDrink.demandaAnual / this.resultado.cantidadOptima);
       },
       calcularSigmaL() {
         let v = Math.sqrt(this.modeloP.revision + this.randDrink.leadTime) * 1;
