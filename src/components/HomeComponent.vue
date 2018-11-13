@@ -121,10 +121,10 @@
         <div v-if="active > 1">
           <section v-if="!isPSelected">
             <div>Costo Total Esperado: $ {{modeloQ.CTE}}.-</div>
-            <div>Cantidad optima de compra: {{resultado.cantidadOptima}} u.</div>
+            <div>Cantidad optima de compra: {{Math.ceil(resultado.cantidadOptima)}} u.</div>
             <div>Punto de reorden: {{resultado.reorden}} u.</div>
-            <div>Nº de órdenes de compra anuales: {{resultado.nOrdenes}}</div>
-            <div>Tiempo de espera entre órdenes: {{randDrink.diasLaborales/resultado.nOrdenes}} días.</div>
+            <div>Nº de órdenes de compra anuales: {{resultado.nOrdenes}} u.</div>
+            <div>Tiempo de espera entre órdenes: {{Math.ceil(randDrink.diasLaborales/resultado.nOrdenes)}} días.</div>
           </section>
           <section v-else>
             <div>Cantidad optima de compra: {{resultado.cantidadOptima}} u.</div>
@@ -326,8 +326,11 @@
             this.modeloP.inventario;
           if (rta < 0) {
             rta = 0;
+          } else {
+            rta -= rta*0.011 ;
           }
-          this.resultado.cantidadOptima = Math.floor(rta);
+
+          this.resultado.cantidadOptima = Math.round(rta);
         } else {
           let cpo = Math.sqrt(
             (2 * this.randDrink.demandaAnual * this.randDrink.costoPreparacion) /

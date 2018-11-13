@@ -55,8 +55,9 @@
     methods: {
       loadingData(data) {
         let id = this.$route.params.id;
-        this.modelQ.demandaAnual = data.demandaAnualProducto(id);
-        this.modelQ.demandaDiaria = data.demandaDiariaProducto(id);
+        //this.modelQ.demandaAnual = data.demandaAnualProducto(id);
+        this.modelQ.demandaDiaria = Math.round(data.demandaDiariaProducto(id)*100)/100;
+        this.modelQ.demandaAnual = this.modelQ.demandaDiaria * 300;
         this.calcularQ();
         this.calcularReorden();
         this.calcularCTE();
@@ -70,7 +71,7 @@
         if (rta < 1) {
           rta = 1;
         }
-        this.modelQ.puntoReorden = rta;
+        this.modelQ.puntoReorden = Math.ceil(rta);
       },
       calcularCTE() {
         let cte = (this.modelQ.demandaAnual * this.bebida.costo) + ((this.modelQ.demandaAnual / this.modelQ.cantidadPedidoOptima) * this.modelQ.costoPreparacion) + ((this.modelQ.cantidadPedidoOptima / 2) * this.modelQ.costoMantenimiento);

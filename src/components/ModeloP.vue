@@ -12,20 +12,21 @@
       <div>
         <section class="cardHeader">
           <div>Precio: ${{bebida.precio}}.- </div>
-          <div>Cantidad: {{bebida.cantidad}} unidades</div>
+          <div>Cantidad: {{bebida.cantidad}} u.</div>
           <div>Costo: ${{bebida.costo}}.-</div>
         </section>
         <section class="cardBody">
           <div>Demora: {{bebida.leadTime}} dias</div>
-          <div>Demanda Anual: {{modelP.demandaAnual}} unidades</div>
-          <div>Demanda Diaria: {{modelP.demandaDiaria}} unidades</div>
+          <div>Demanda Anual: {{modelP.demandaAnual}} u.</div>
+          <div>Demanda Diaria: {{modelP.demandaDiaria}} u.</div>
         </section>
         <section class="cardAppend">
           <div>Indice de rotacion: {{bebida.indiceRotacion}}</div>
           <div>Periodo: {{modelP.periodo}} dias</div>
           <div>σTL: {{modelP.sigmaTL}}</div>
           <div>Desviacion Estandar: {{modelP.desviacionEstandar}}</div>
-          <div>Cantidad a pedir: {{modelP.cantidadQueDebeOrdenarse}}</div>
+          <div>Cantidad a pedir: {{modelP.cantidadQueDebeOrdenarse}} u.</div>
+          <div>Periodo entre ordenes: {{Math.ceil(modelP.demandaAnual/modelP.cantidadQueDebeOrdenarse)}} días.</div>
         </section>
       </div>
     </el-card>
@@ -54,8 +55,9 @@
     methods: {
       loadingData(data) {
         let id = this.$route.params.id;
-        this.modelP.demandaAnual = data.demandaAnualProducto(id);
-        this.modelP.demandaDiaria = Math.round(data.demandaDiariaProducto(id) * 1000) / 1000;
+        //this.modelP.demandaAnual = data.demandaAnualProducto(id);
+        this.modelP.demandaDiaria = Math.round(data.demandaDiariaProducto(id) * 100) / 100;
+        this.modelP.demandaAnual = this.modelP.demandaDiaria *300;
         this.calcularSigmaTL();
         this.calcularQ();
       },
