@@ -38,7 +38,7 @@
   export default {
     name: 'modelo-p',
     data() {
-      return {
+      return { /* eslint-disable*/
         bebida: {},
         modelP: {
           demandaAnual: 0, //D
@@ -76,7 +76,7 @@
       checkStatus() {
         if (this.$route.params.id !== undefined) {
           inventarioService.getBebida(this.$route.params.id)
-            .then((data) => this.bebida = data)
+            .then((data) => this.bebida = data) 
             .catch((err) => console.log(err));
           inventarioService.getTransations()
             .then((data) => this.loadingData(data))

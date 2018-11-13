@@ -38,7 +38,7 @@
   import router from '../router.js';
   export default {
     name: 'modelo-q',
-    data() {
+    data() { /* eslint-disable*/
       return {
         bebida: {},
         modelQ: {
