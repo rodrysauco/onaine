@@ -120,18 +120,17 @@
         </div>
         <div v-if="active > 1">
           <section v-if="!isPSelected">
-            <div>Costo Total Esperado: $ {{modeloQ.CTE}}</div>
+            <div>Costo Total Esperado: $ {{modeloQ.CTE}}.-</div>
             <div>Cantidad optima de compra: {{resultado.cantidadOptima}} u.</div>
             <div>Punto de reorden: {{resultado.reorden}} u.</div>
             <div>Nº de órdenes de compra anuales: {{resultado.nOrdenes}}</div>
-            <div>Tiempo de espera entre órdenes: {{randDrink.diasLaborales/resultado.nOrdenes}}</div>
+            <div>Tiempo de espera entre órdenes: {{randDrink.diasLaborales/resultado.nOrdenes}} días.</div>
           </section>
           <section v-else>
             <div>Cantidad optima de compra: {{resultado.cantidadOptima}} u.</div>
-            <div>Faltantes: {{resultado.faltantes}}</div>
+            <div>Faltantes: {{resultado.faltantes}} u.</div>
           </section>
-          <section>
-            <el-button @click="goBack">Volver</el-button>
+          <section class="last__buttons">
             <section class="continue">
               <el-button type="primary" @click="reset"><i class="el-icon-arrow-right"></i> Reiniciar</el-button>
             </section>
@@ -160,7 +159,6 @@
           diasLaborales: 0
         },
         modeloP: {
-          sigmaL: 0, //desviacion durante entrega
           revision: 0, //T
           inventario: 0, //I
           oTL: 0,
@@ -229,9 +227,11 @@
           this.active = 0;
         }
         if (this.active === 2) {
+          this.active = 3;
           if (this.isPSelected) {
             this.calcularSigmaL();
             this.calcularQ();
+            this.calculoEz();
           } else {
             this.calcularReorden();
             this.calcularCTE();
@@ -250,12 +250,20 @@
         this.randDrink.desviacionEstandar = 0;
         this.randDrink.nivelServicio = 0;
         this.randDrink.diasLaborales = 0;
+        this.modeloP.revision = 0;
+        this.modeloP.inventario = 0;
+        this.modeloP.oTL = 0;
+        this.modeloQ.produccion = false;
+        this.modeloQ.zD = 0;
+        this.modeloQ.eZ = 0;
+        this.modeloQ.oL = 0;
+        this.modeloQ.CTE = 0;
       },
       preparar() {
+        if (this.randDrink.nivelServicio > 1) {
+          this.randDrink.nivelServicio = this.randDrink.nivelServicio / 100;
+        }
         if (!this.isPSelected) {
-          if (this.randDrink.nivelServicio > 1) {
-            this.randDrink.nivelServicio = this.randDrink.nivelServicio / 100;
-          }
           if (this.randDrink.demandaAnual === 0) {
             this.randDrink.demandaAnual =
               this.randDrink.demandaDiaria * this.randDrink.diasLaborales;
@@ -287,20 +295,26 @@
         if (this.modeloQ.produccion) {
           mQP = this.modeloQ.eZ * this.modeloQ.oL * this.randDrink.costoAlma;
         }
-        // DxC + Q/2*H+D/L*S + MQP
+        // DxC + Q/2*H+D/Q*S + MQP
         let cte = (this.randDrink.demandaAnual * this.randDrink.costo) +
           ((this.resultado.cantidadOptima / 2) * this.randDrink.costoAlma) +
-          ((this.randDrink.demandaAnual / this.randDrink.leadTime) * this.randDrink.costoPreparacion) +
+          ((this.randDrink.demandaAnual / this.resultado.cantidadOptima) * this.randDrink.costoPreparacion) +
           mQP;
         this.modeloQ.CTE = Math.round(cte * 1000) / 1000;
       },
       calculoEz() {
-        //((1-p)/q)/ol
         if (this.randDrink.nivelServicio > 0) {
-          let ez =
-            ((1 - this.randDrink.nivelServicio) * this.resultado.cantidadOptima) /
-            this.modeloQ.oL;
-          this.modeloQ.zD = Math.round(ez * 1000) / 1000;
+          if (this.isPSelected) {
+            //E(z)=(d*T*(1-P))/oTL
+            let ez = (this.randDrink.demandaDiaria * this.modeloP.revision * (1 - this.randDrink.nivelServicio)) / this.modeloP.oTL;
+            this.resultado.faltantes = Math.round(ez * 1000) / 1000;
+          } else {
+            //((1-p)/q)/ol
+            let ez =
+              ((1 - this.randDrink.nivelServicio) * this.resultado.cantidadOptima) /
+              this.modeloQ.oL;
+            this.modeloQ.zD = Math.round(ez * 1000) / 1000;
+          }
         }
       },
       calcularQ() {
@@ -308,7 +322,7 @@
           let rta =
             this.randDrink.demandaDiaria *
             (this.modeloP.revision + this.randDrink.leadTime) +
-            this.randDrink.desviacionEstandar * this.modeloP.sigmaL -
+            (this.randDrink.desviacionEstandar * this.modeloP.oTL) -
             this.modeloP.inventario;
           if (rta < 0) {
             rta = 0;
@@ -326,12 +340,16 @@
       },
       calcularSigmaL() {
         let v = Math.sqrt(this.modeloP.revision + this.randDrink.leadTime) * 1;
-        this.modeloP.sigmaL = Math.round(v * 1000) / 1000;
+        this.modeloP.oTL = Math.round(v * 1000) / 1000;
       }
     },
   };
 </script>
 <style>
+  .last__buttons {
+    margin-top: 15px;
+  }
+
   .tableCalculos {
     width: 90%;
     margin-left: auto;
