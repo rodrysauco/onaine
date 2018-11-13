@@ -1,0 +1,16 @@
+------------------------ Stock | LiSa ------------------------
+1)Le recomendamos copiar la carpeta "Onaine" en su escritorio,
+  para su fácil acceso y localización.
+2)Para que el programa funcione, debe tener instalado Node.JS
+  en su computadora. Caso contrario, dentro de la carpeta ex-
+  -tras lo encontrará.
+3)Para ejecutar el programa, deberá abrir la consola de coman-
+  -dos de Windows (Tecla Inicio + Tecla "R") y escribir "cmd".
+  Esto abrirá una ventana en la cual pondra lo siguiente:
+  "cd Desktop / Onaine", esto moverá la locacion donde está
+  ubicado hacia la carpeta del escritorio.
+  Realizado esto, ingrese "npm run serve" para iniciar el pro-
+  -grama.
+4) Abra su navegador preferido y dirijase a:
+  "localhost:8080".
+5) Listo
